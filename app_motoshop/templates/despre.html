@@ -1,0 +1,27 @@
+
+{% extends "./baza.html" %}
+{% load static %}
+
+{% block title %}Despre - Moto Shop{% endblock %}
+
+{% block content %}
+
+<h1>Despre Moto Shop</h1>
+
+<section id="cine-suntem">
+    <h2>Cine suntem</h2>
+    <p>Moto Shop este un magazin dedicat echipamentelor moto,
+    infiintat in anul 2024. Oferim produse pentru siguranta
+    si confortul motociclistilor.</p>
+
+    <img src="{% static 'imagini/despre.jpg' %}"
+         alt="Echipamente moto">
+</section>
+
+<section id="de-ce-noi">
+    <h2>De ce noi</h2>
+    <p>Oferim echipamente moto omologate, consiliere pentru
+    alegerea produselor potrivite si preturi corecte.</p>
+</section>
+
+{% endblock %}

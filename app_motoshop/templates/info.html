@@ -1,0 +1,22 @@
+
+{% extends "./baza.html" %}
+
+{% block title %}Info - Moto Shop{% endblock %}
+
+{% block content %}
+<h1>Informatii despre server</h1>
+
+<h2>Data si ora</h2>
+<p>{{ data }}</p>
+
+<h2>Parametri</h2>
+<p>Nr. parametri: {{ nr_parametri }}</p>
+
+<ul>
+    {% for cheie, valoare in parametri %}
+        <li>{{ cheie }}: {{ valoare }}</li>
+    {% empty %}
+        <li>Nu exista parametri.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

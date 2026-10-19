@@ -1,0 +1,63 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Pagina mea{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/stil.css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>Site-ul meu</h1>
+
+        <nav class="menu">
+            <ul>
+                <li>
+                    <a href="{% url 'index' %}">Acasa</a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'index' %}#promotii">Promotii</a></li>
+                        <li><a href="{% url 'index' %}#categorii">Categorii populare</a></li>
+                        <li><a href="{% url 'index' %}#recomandate">Produse recomandate</a></li>
+                        <li><a href="{% url 'index' %}#despre-magazin">Despre magazin</a></li>
+                        <li><a href="{% url 'index' %}#testimoniale">Testimoniale</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="{% url 'despre' %}">Despre</a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'despre' %}#cine-suntem">Cine suntem</a></li>
+                        <li><a href="{% url 'despre' %}#de-ce-noi">De ce noi</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'istoric' %}">Istoric</a></li>
+                <li><a href="{% url 'produse' %}">Produse</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'cos_virtual' %}">Cos</a></li>
+                <li><a href="{% url 'info' %}">Info</a></li>
+                <li><a href="{% url 'log' %}">Log</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Nume firma: {{ firma.nume }}</p>
+        <p>An infiintare: {{ firma.an_infiintare }}</p>
+        <p>Telefon: {{ firma.telefon }}</p>
+        <p>Adresa: {{ firma.adresa }}</p>
+        <p>Email: {{ firma.email }}</p>
+        <p>Program: {{ firma.program }}</p>
+        <p>IP utilizator: {{ ip }}</p>
+        <p>{{copyright}}</p>
+    </footer>
+</body>
+</html>
