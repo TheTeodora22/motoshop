@@ -1,0 +1,31 @@
+{% extends './baza.html'%}
+<!DOCTYPE html>
+<html lang="ro">
+    <head>
+        <title>Titlu</title>
+    </head>
+    {%block content%}
+    <body>
+        <section>
+            <h1>Afisaj</h1>
+            {% if eroare %}
+                <p>{{eroare}}</p>
+            {% else %}
+                <span>
+                    Pagina {{ pagina.number }} din {{ pagina.paginator.num_pages }}.
+                </span>
+            {% endif %}
+            {% for prod in pagina.object_list %}
+                <section><p>{{prod}}</p></section>
+            {% endfor %}
+            {% if pagina.has_previous %}
+                <a href="?pagina={{ pagina.previous_page_number }}">« Anterior</a>
+            {% endif %}
+            {% if pagina.has_next %}
+                <a href="?pagina={{ pagina.next_page_number }}">Următor »</a>
+            {% endif %}  
+
+        </section>
+    </body>
+    {% endblock %}
+</html>

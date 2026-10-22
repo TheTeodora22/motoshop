@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from datetime import datetime
+from .models import Produs
 import locale
 import re
 
@@ -193,10 +195,6 @@ def exemplu(request):
 def exemplu2(request):
     return render(request,"exemplu2.html")
 
-def produse(request):
-    record_accesare(request)
-    return render(request, "in_lucru.html", {"pagina": "Produse"})
-
 def contact(request):
     record_accesare(request)
     return render(request, "in_lucru.html", {"pagina": "Contact"})
@@ -204,3 +202,33 @@ def contact(request):
 def cos_virtual(request):
     record_accesare(request)
     return render(request, "in_lucru.html", {"pagina": "Cos virtual"})
+
+def produse(request):
+    produse=Produs.objects.all()
+    return render(request,"produse.html",
+        {
+            "nr_produse":len(produse),
+            "produse":produse
+        }
+    )
+    
+def afisare_produse(request):
+    nrPagina=request.GET.get("pagina",1)
+    produse=Produs.objects.all()
+    paginator = Paginator(produse, 4)
+    mesajEroare=None
+    try:
+        obPagina = paginator.page(nrPagina)
+    except EmptyPage:
+        obPagina=None
+        mesajEroare = "Nu mai sunt produse"
+    except PageNotAnInteger:
+        obPagina=None
+        mesajEroare = "Pagina este invalida"
+    return render(request,"produse.html",
+        {
+            'pagina': obPagina,
+            'eroare': mesajEroare
+        }
+    )
+

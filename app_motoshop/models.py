@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
+# LAB3 : Task1
 
 class Brand(models.Model):
     class Meta:
@@ -9,6 +10,8 @@ class Brand(models.Model):
     nume = models.CharField(max_length=100, unique=True, error_messages={"unique": "Brandul exista deja."})
     tara = models.CharField(max_length=100,null=True,blank=True,help_text="Tara de origine a brandului")
     activ = models.BooleanField(default=True)
+    def __str__(self):
+        return self.nume
 
 class Categorie(models.Model):
     class Meta:
@@ -19,6 +22,8 @@ class Categorie(models.Model):
     culoare=models.CharField(max_length=7,default="#FFFFFF",help_text="codul HEX de culoare")
     sigla=models.CharField(max_length=255,null=True,blank=True,help_text="calea siglei categoriei")
     ordine=models.IntegerField(default=0,db_index=True,help_text="ordinea de afisare")
+    def __str__(self):
+        return self.nume
     
 class Produs(models.Model):
     class Meta:
@@ -32,15 +37,18 @@ class Produs(models.Model):
     TIPURI_UTILIZARE = [("urban", "Urban"), ("touring", "Touring"), ("sport", "Sport")]
 
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    categorie = models.ManyToManyField(Categorie)
     nume = models.CharField(max_length=200, db_index=True, error_messages={"blank": "Numele este obligatoriu."})
     descriere = models.TextField(null=True, blank=True)
     gen = models.CharField(max_length=10, choices=GENURI)
     pret_baza = models.DecimalField(max_digits=10, decimal_places=2,db_index=True, help_text="Pretul inainte de reduceri.")
     material_principal = models.CharField(max_length=100, null=True, blank=True)
     tip_utilizare = models.CharField(max_length=20, choices=TIPURI_UTILIZARE)
-    etichete = ArrayField(models.CharField(max_length=50), default=list, blank=True)
+    etichete = ArrayField(models.CharField(max_length=50), default=list, blank=True, help_text="Pune etichetele separate prin ','.")
     creat_la = models.DateTimeField(auto_now_add=True)
     activ = models.BooleanField(default=True)
+    def __str__(self):
+        return self.nume
     
 class Furnizor(models.Model):
     class Meta:
@@ -50,6 +58,8 @@ class Furnizor(models.Model):
     telefon = models.CharField(max_length=15, null=True, blank=True)
     tara = models.CharField(max_length=100, null=True, blank=True)
     activ = models.BooleanField(default=True)
+    def __str__(self):
+        return self.nume
     
 class Discount(models.Model):
     class Meta:
@@ -66,6 +76,8 @@ class Discount(models.Model):
     start_la = models.DateField()
     end_la = models.DateField()
     activ = models.BooleanField(default=True)
+    def __str__(self):
+        return self.nume
     
 class VariantaProdus(models.Model):
     class Meta:
@@ -87,6 +99,9 @@ class VariantaProdus(models.Model):
     disponibil_de_la = models.DateField(null=True, blank=True)
     activ = models.BooleanField(default=True)
     
+    def __str__(self):
+        return f"{self.produs.nume} - {self.marime} - {self.culoare}"
+        
 class ImagineProdus(models.Model):
     class Meta:
         verbose_name_plural = "Imagini produse"
@@ -97,3 +112,6 @@ class ImagineProdus(models.Model):
     alt_text = models.CharField(max_length=200, null=True, blank=True)
     este_coperta = models.BooleanField(default=False)
     ordine = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return f"Imagine {self.ordine} - {self.produs.nume}"
